@@ -6,6 +6,8 @@ import axios from 'axios';
 const Translator = () => {
   const [word, setWord] = useState("");
   const [translation, setTranslation] = useState("");
+  const [img, setImage] = useState("")
+  // const [sent, setSentence] = useState("")
 
   const handleChange = (event) => {
     setWord(event.target.value);
@@ -23,6 +25,21 @@ const Translator = () => {
       console.error("Error translating word: ", error);
     }
   };
+  const config = {
+    headers:{
+      "Content-Type": "application/json"
+    }
+  };
+  const image = async () => { 
+    try {
+      const response = await axios.post('localhost:8080/api/sentence_to_image', {
+        message: word,
+      }, config);
+      setImage(response.data);
+    } catch (error) {
+      console.error("Error getting image: ", error);
+    }
+  }
 
   return (
     <Box p="5">
@@ -37,6 +54,15 @@ const Translator = () => {
           <strong>Translation:</strong>
         </Text>
         <Text>{translation}</Text>
+        </>
+      )}
+      <Button colorScheme="green" onClick={image} mt="3">See Image</Button>
+      {img && (
+        <>
+        <Text mt="5">
+        <strong>Image:</strong>
+        </Text>
+        <img src={img} alt="Translated Image" mt="2" />
         </>
       )}
     </Box>
