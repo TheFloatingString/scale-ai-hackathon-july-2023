@@ -33,13 +33,21 @@ def api_word_to_sentence():
 
     RESULT = completion.choices[0].message
 
-    return {"data": RESULT}
+    return {"data": RESULT["content"]}
 
 @app.route("/api/sentence_to_image", methods=["GET", "POST"])
 def api_sentence_to_image():
     data = request.json
-    print(data["message"])
-    return {"data": "sentence_to_image"}
+
+    completion = openai.Image.create(
+        prompt=data["message"],
+        n=2,
+        size="512x512"
+    )
+
+    print(completion)
+
+    return {"data": completion["data"][0]["url"]}
 
 if __name__ == "__main__":
     app.run(port=8080, host="0.0.0.0", debug=True)
