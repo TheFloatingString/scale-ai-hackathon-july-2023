@@ -32,9 +32,12 @@ const Translator = () => {
       </FormControl>
       <Button colorScheme="blue" onClick={translate} mt="3">Translate</Button>
       {translation && (
+        <>
         <Text mt="5">
-          <strong>Translation:</strong> {translation}
+          <strong>Translation:</strong>
         </Text>
+        <Text>{translation}</Text>
+        </>
       )}
     </Box>
   );

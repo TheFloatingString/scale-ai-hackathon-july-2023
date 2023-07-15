@@ -21,7 +21,7 @@ export const App = () => (
   <ChakraProvider theme={theme}>
     <Box textAlign="center" fontSize="xl">
       <Heading>Edknights: Video Generation for explaining problems</Heading>
-      <HStack mt="50px" justify={"space-between"} mx="200px" align={'start'}>
+      <HStack mt="50px" justify={"space-between"} mx="200px" align={"start"}>
         {/* Chatbot */}
         <VStack spacing="50px">
           <VideoDisplay video={undefined} />
