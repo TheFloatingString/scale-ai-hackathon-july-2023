@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 import uvicorn
 
 app = FastAPI()
@@ -7,5 +7,10 @@ app = FastAPI()
 async def root():
     return {"data": "Rest API for Link."}
 
+@app.post("/api/problem")
+async def api_problem(request: Request):
+    print(request.json())
+    return {"data": "Problem submitted."}
+
 if __name__ == "__main__":
-    uvicorn.run(app)
+    uvicorn.run(app, host="0.0.0.0")
