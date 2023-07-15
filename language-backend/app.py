@@ -5,13 +5,16 @@ import openai
 from dotenv import load_dotenv
 from pymongo import MongoClient
 
+from flask_cors import CORS
+
 load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_API_KEY_SAI")
 
-mongo_client = MongoClient("localhost", 27017)
+mongo_client = MongoClient("mongodb+srv://user:pass@cluster0.gtjf1ql.mongodb.net/?retryWrites=true&w=majority")
 
 app = Flask(__name__)
+cors = CORS(app)
 
 @app.route("/")
 def root():
@@ -24,7 +27,7 @@ def api_db_item():
 
     post_id = mongo_client.db.coll.insert_one(post).inserted_id
 
-    return {"data": post_id}
+    return {"data": "1"}
 
 @app.route("/api/word_to_sentence", methods=["GET", "POST"])
 def api_word_to_sentence():
