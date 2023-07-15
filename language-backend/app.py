@@ -3,16 +3,28 @@ import requests
 import os
 import openai
 from dotenv import load_dotenv
+from pymongo import MongoClient
 
 load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_API_KEY_SAI")
+
+mongo_client = MongoClient("localhost", 27017)
 
 app = Flask(__name__)
 
 @app.route("/")
 def root():
     return {"data": "Flash REST API"}
+
+@app.route("/api/db/item", methods=["GET", "POST"])
+def api_db_item():
+
+    post = {"data": "content"}
+
+    post_id = mongo_client.db.coll.insert_one(post).inserted_id
+
+    return {"data": post_id}
 
 @app.route("/api/word_to_sentence", methods=["GET", "POST"])
 def api_word_to_sentence():
