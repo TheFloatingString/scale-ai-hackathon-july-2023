@@ -1,5 +1,17 @@
 # Backend
 
+## Setup
+
+```
+pip install -r requirements.txt
+```
+
+```
+python app.pyy
+```
+
+URL is `localhost:8080` or `127.0.0.1:8080`
+
 ## API Routes
 
 ### Word to sentence
