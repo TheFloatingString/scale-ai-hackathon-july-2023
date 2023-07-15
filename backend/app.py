@@ -9,7 +9,7 @@ async def root():
 
 @app.post("/api/problem")
 async def api_problem(request: Request):
-    print(request.json())
+    print(await request.json())
     return {"data": "Problem submitted."}
 
 if __name__ == "__main__":
