@@ -17,7 +17,7 @@ URL is `localhost:8080` or `127.0.0.1:8080`
 ### Word to sentence
 
 ```
-curl -XPOST localhost:8080/api/sentence_to_image -d "{\"message\": \"mi casa es tu casa\"}" -H "Content-Type: application/json"
+curl -XPOST localhost:8080/api/word_to_sentence -d "{\"message\": \"casa\"}" -H "Content-Type: application/json"
 ```
 
 Response:
