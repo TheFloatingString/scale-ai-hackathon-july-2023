@@ -17,17 +17,7 @@ mongo_client = MongoClient("mongodb+srv://user:pass@cluster0.gtjf1ql.mongodb.net
 
 app = Flask(__name__)
 cors = CORS(app)
-<<<<<<< HEAD
 app.config["CORS_HEADERS"] = "Content-Type"
-
-# @app.after_request
-# def after_request(response):
-#     response.headers.add('Access-Control-Allow-Origin', '*')
-#     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-#     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-#     return response
-=======
->>>>>>> bef2f6066c16ad440b3c7d00fe9f98f38e302ef0
 
 @app.route("/")
 # @cross_origin
