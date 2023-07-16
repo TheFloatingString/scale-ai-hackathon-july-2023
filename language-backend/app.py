@@ -37,6 +37,9 @@ def api_db_item():
     #         "backSentence": "My house is your house."
     #         }
             
+
+    post["backSentence"] = post["backWord"]
+
     post_id = mongo_client.db.coll.insert_one(post).inserted_id
 
     return {"data": "Posted"}
