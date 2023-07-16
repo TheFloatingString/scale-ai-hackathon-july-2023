@@ -71,7 +71,11 @@ const Translator = () => {
         <FormLabel>Enter a word to translate:</FormLabel>
         <Input type="text" value={word} onChange={handleChange} />
       </FormControl>
-      <Button colorScheme="blue" onClick={translate} mt="3">Translate</Button>
+
+      <Button colorScheme="blue" onClick={() => {
+        translate()
+      }} mt="3">Get Translation</Button>
+
       {translation && (
         <>
         <Text mt="5">
@@ -80,25 +84,28 @@ const Translator = () => {
         <Text>{translation}</Text>
         </>
       )}
+
       <Button colorScheme="green" onClick={image} mt="3">See Image</Button>
       {img && (
         <>
         <Text mt="5">
         <strong>Image:</strong>
         </Text>
-        <img src={img} alt="Translated Image" mt="2" />
+          <img src={img} alt="Translated Image" mt="2" />
         </>
       )}
 
-<Button colorScheme="green" onClick={sentence} mt="4">See Sentence</Button>
+    <Button colorScheme="green" onClick={sentence} mt="3">See Sentence</Button>
       { sent && (
         <>
         <Text mt="5">
-        <strong>{sent}</strong>
+          <strong>{sent}</strong>
         </Text>
         </>
       )}
-
+       {(sent && translation && img) && (
+          <Button colorScheme="green" onClick={console.log("saving flashcard")} mt='3'>Save Flashcard</Button>
+        )}
     </Box>
   );
 };
