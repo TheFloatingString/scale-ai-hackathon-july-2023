@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* global chrome */
+import React, { useState, useEffect } from "react";
 import { Box, Button, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
 import axios from 'axios';
 
@@ -8,6 +9,17 @@ const Translator = () => {
   const [translation, setTranslation] = useState("");
   const [img, setImage] = useState("")
   const [sent, setSentence] = useState("")
+
+  useEffect(() => {
+    // Send a message to background.js to get the highlighted text
+    try {
+      chrome.runtime.sendMessage({ type: 'getHighlightedText' }, response => {
+        setWord(response.highlightedText);
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  }, []);
 
   const handleChange = (event) => {
     setWord(event.target.value);
