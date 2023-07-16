@@ -27,11 +27,31 @@ def root():
 @app.route("/api/db/item", methods=["GET", "POST"])
 def api_db_item():
 
-    post = {"data": "content"}
-
+    post = {
+            "frontWord": "casa",
+            "frontSentence": "Mi casa es tu casa.",
+            "frontImage": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-dqLUEDrMw0A2DtY4YxgXFBDn/user-q6vCipxIuFmQVunOX5YMfEt2/img-rO4FT7AtnqNoIjv8HnskcDc6.png?st=2023-07-15T22%3A57%3A04Z&se=2023-07-16T00%3A57%3A04Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-07-15T20%3A39%3A55Z&ske=2023-07-16T20%3A39%3A55Z&sks=b&skv=2021-08-06&sig=J6Ky8dZzWe1YyflWv/vVG14mObrv/%2B0TW3qKjh5YvcE%3D",
+            "backWord": "house",
+            "backSentence": "My house is your house."
+            }
+            
     post_id = mongo_client.db.coll.insert_one(post).inserted_id
 
-    return {"data": "1"}
+    return {"data": "Posted"}
+
+@app.route("/api/db/results", methods=["GET", "POST"])
+def api_db_results():
+    return_list = []
+
+    curr_coll = mongo_client.db.coll
+
+    for post in curr_coll.find():
+        post.pop("_id")
+        return_list.append(post)
+
+    print(return_list)
+
+    return {"data": return_list}
 
 @app.route("/api/word_to_sentence", methods=["GET", "POST"])
 # @cross_origin
