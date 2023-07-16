@@ -25,6 +25,7 @@ const Translator = () => {
       console.error("Error translating word: ", error);
     }
   };
+
   const config = {
     headers:{
       "Content-Type": "application/json"
@@ -32,10 +33,11 @@ const Translator = () => {
   };
   const image = async () => { 
     try {
-      const response = await axios.post('localhost:8080/api/sentence_to_image', {
+      const response = await axios.post('http://localhost:8080/api/sentence_to_image', {
         message: word,
       }, config);
       setImage(response.data);
+
     } catch (error) {
       console.error("Error getting image: ", error);
     }

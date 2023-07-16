@@ -4,17 +4,30 @@ import os
 import openai
 from dotenv import load_dotenv
 
+from flask_cors import CORS, cross_origin
+
 load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_API_KEY_SAI")
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config["CORS_HEADERS"] = "Content-Type"
+
+# @app.after_request
+# def after_request(response):
+#     response.headers.add('Access-Control-Allow-Origin', '*')
+#     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+#     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+#     return response
 
 @app.route("/")
+# @cross_origin
 def root():
     return {"data": "Flash REST API"}
 
 @app.route("/api/word_to_sentence", methods=["GET", "POST"])
+# @cross_origin
 def api_word_to_sentence():
     data = request.json
     PROMPT = f"Generate a sentence using the phrase {data['message']} in the same language as this phrase"
@@ -29,13 +42,12 @@ def api_word_to_sentence():
         ]
     )
 
-
-
     RESULT = completion.choices[0].message
 
     return {"data": RESULT["content"]}
 
 @app.route("/api/sentence_to_image", methods=["GET", "POST"])
+# @cross_origin
 def api_sentence_to_image():
     data = request.json
 
