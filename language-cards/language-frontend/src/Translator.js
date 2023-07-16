@@ -65,6 +65,25 @@ const Translator = () => {
     }
   }
 
+  const saveFlashcard = async () => {
+    console.log("saving flashcard")
+    try {
+      const response = axios.post('http://localhost:8080/api/db/item', 
+        {
+          frontWord: translation,
+          frontSentence: sent,
+          frontImage: img,
+          backWord: word,
+          backSentence: "",
+        }, config);
+      setImage("")
+      setSentence("")
+      setTranslation("")
+    } catch (error) {
+      console.error("Error publishing flashcard:", error)
+    }
+  }
+
   return (
     <Box p="5">
       <FormControl id="word">
@@ -104,7 +123,7 @@ const Translator = () => {
         </>
       )}
        {(sent && translation && img) && (
-          <Button colorScheme="green" onClick={console.log("saving flashcard")} mt='3'>Save Flashcard</Button>
+          <Button colorScheme="green" onClick={saveFlashcard} mt='3'>Save Flashcard</Button>
         )}
     </Box>
   );
