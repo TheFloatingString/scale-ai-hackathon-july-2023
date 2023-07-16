@@ -11,6 +11,8 @@ struct CardContentView: View {
     
     @State var frontText: String
     @State var backText : String
+    @State var imageURL : String
+
     let direction: LeftRight?
     @State var deleteAction: () -> Void
     
@@ -19,15 +21,28 @@ struct CardContentView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
+            Color.clear
+                    .contentShape(Rectangle()) // This is important
+                    .onTapGesture {
+                        withAnimation {
+                            showAnswer.toggle()
+                            #if os(iOS)
+                            HapticGenerator.shared.impact()
+                            #endif
+                        }
+                    }
+
             HStack {
                 /// Delete card
                 Button(action: { showDeleteDialog.toggle() }) {
                     Image(systemName: "trash.fill")
                 }
+                
                 #if os(iOS)
                 .hoverEffect(.lift)
                 #endif
-                
+                .contentShape(Rectangle())  // This is the line you need to add
+
                 Spacer()
                 
                 /// Show Answer
@@ -49,13 +64,19 @@ struct CardContentView: View {
             .buttonStyle(.plain)
             .padding()
             
-            /// Front Text
-            Text(frontText)
-                .font(.system(.largeTitle, design: .rounded))
-                .fontWeight(.medium)
-                .multilineTextAlignment(.center)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                .padding(.horizontal)
+            
+            VStack {
+                   Text(frontText)
+                       .font(.system(.title, design: .rounded))
+                       .fontWeight(.medium)
+                       .multilineTextAlignment(.center)
+                       .padding(.top, 64) // Move the text down by 32 points
+
+                   Spacer() // Pushes the next element (the image) to the bottom
+                AsyncImage(url: URL(string: imageURL))
+                       .frame(width: 256, height: 256)
+                       .padding(.bottom, 32) // Move the image up by 32 points
+               }
             
             /// Back Text
             if showAnswer {
@@ -110,7 +131,14 @@ struct CardContentView: View {
                 material: .menu,
                 blendingMode: .withinWindow
             )
-        )
+        ).onTapGesture {
+            withAnimation {
+                showAnswer.toggle()
+                #if os(iOS)
+                HapticGenerator.shared.impact()
+                #endif
+            }
+        }
         #elseif os(iOS)
         .background(.ultraThinMaterial)
         #endif
@@ -128,6 +156,7 @@ struct CardContentView_Previews: PreviewProvider {
         CardContentView(
             frontText: "Front text with some long text for testing",
             backText: "Back text with some long text for testing",
+            imageURL: "",
             direction: nil,
             deleteAction: {}
         )

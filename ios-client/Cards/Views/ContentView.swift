@@ -6,6 +6,19 @@
 //
 
 import SwiftUI
+import Alamofire
+
+struct CardResponse: Codable {
+    let data: [CardData]
+}
+
+struct CardData: Codable {
+    let backSentence: String
+    let backWord: String
+    let frontImage: String
+    let frontSentence: String
+    let frontWord: String
+}
 
 struct ContentView: View {
     
@@ -79,6 +92,7 @@ struct ContentView: View {
                     CardContentView(
                         frontText: card.front ?? "",
                         backText: card.back ?? "",
+                        imageURL: card.imageURL ?? "",
                         direction: direction,
                         deleteAction: { removeCard(card) }
                     )
@@ -184,25 +198,37 @@ struct ContentView: View {
     func preloadCardsIfNeeded() {
         let key = "didPreloadCards"
         let defaults = UserDefaults.standard
+        let url = "http://172.16.9.249:8080/api/db/results"
         
-        if !defaults.bool(forKey: key) {
-            // Add your preset cards here
-            let presetCards = [
-                ("Front Text 1", "Back Text 1"),
-                ("Front Text 2", "Back Text 2"),
-                // ... add as many preset cards as needed
-            ]
-            
-            for (frontText, backText) in presetCards {
-                let card = Card(context: moc)
-                card.id = UUID()
-                card.front = frontText
-                card.back = backText
-                card.creationDate = Date()
+        AF.request(url).validate().responseJSON { response in
+            print(response)
+        }
+
+
+        
+        AF.request(url).validate().responseDecodable(of: CardResponse.self) { response in
+            switch response.result {
+            case .success(let cardResponse):
+                let cardDataArray = cardResponse.data
+                for cardData in cardDataArray {
+                    let card = Card(context: self.moc)
+                    card.id = UUID()
+                    card.front = cardData.frontSentence
+                    card.back = cardData.backSentence
+                    card.imageURL = cardData.frontImage
+                    card.creationDate = Date()
+                }
+                print(cardDataArray)
+                do {
+                    try self.moc.save()
+                    defaults.set(true, forKey: key)
+                } catch {
+                    print("Failed to save cards: \(error)")
+                }
+                
+            case .failure(let error):
+                print("Error: \(error)")
             }
-            
-            try? moc.save()
-            defaults.set(true, forKey: key)
         }
     }
 }

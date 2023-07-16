@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A99ECB742A63732E009AA47A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = A99ECB732A63732E009AA47A /* Alamofire */; };
 		C603CCFF28DF7F6A00B7583E /* CardsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C603CCFE28DF7F6A00B7583E /* CardsApp.swift */; };
 		C603CD0128DF7F6A00B7583E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C603CD0028DF7F6A00B7583E /* ContentView.swift */; };
 		C603CD0328DF7F6A00B7583E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C603CD0228DF7F6A00B7583E /* Assets.xcassets */; };
@@ -51,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A99ECB742A63732E009AA47A /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,6 +164,9 @@
 			dependencies = (
 			);
 			name = Cards;
+			packageProductDependencies = (
+				A99ECB732A63732E009AA47A /* Alamofire */,
+			);
 			productName = Cards;
 			productReference = C603CCFB28DF7F6A00B7583E /* Tiny Cards.app */;
 			productType = "com.apple.product-type.application";
@@ -190,6 +195,9 @@
 				Base,
 			);
 			mainGroup = C603CCF228DF7F6A00B7583E;
+			packageReferences = (
+				A99ECB722A63732E009AA47A /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = C603CCFC28DF7F6A00B7583E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -356,7 +364,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(CONFIG_APP_BUNDLE_VERSION)";
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 4EVHA4CF95;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
@@ -395,7 +403,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(CONFIG_APP_BUNDLE_VERSION)";
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 4EVHA4CF95;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
@@ -446,6 +454,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A99ECB722A63732E009AA47A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A99ECB732A63732E009AA47A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A99ECB722A63732E009AA47A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		C60926FC28E31B8E00EE0873 /* Cards.xcdatamodeld */ = {
