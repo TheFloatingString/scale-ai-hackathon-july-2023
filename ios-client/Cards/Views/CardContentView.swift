@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+
+
 struct CardContentView: View {
     
     @State var frontText: String
@@ -21,16 +23,16 @@ struct CardContentView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            Color.clear
-                    .contentShape(Rectangle()) // This is important
-                    .onTapGesture {
-                        withAnimation {
-                            showAnswer.toggle()
-                            #if os(iOS)
-                            HapticGenerator.shared.impact()
-                            #endif
-                        }
-                    }
+//            Color.clear
+//                    .contentShape(Rectangle()) // This is important
+//                    .onTapGesture {
+//                        withAnimation {
+//                            showAnswer.toggle()
+//                            #if os(iOS)
+//                            HapticGenerator.shared.impact()
+//                            #endif
+//                        }
+//                    }
 
             HStack {
                 /// Delete card
@@ -65,33 +67,42 @@ struct CardContentView: View {
             .padding()
             
             
-            VStack {
-                   Text(frontText)
-                       .font(.system(.title, design: .rounded))
-                       .fontWeight(.medium)
-                       .multilineTextAlignment(.center)
-                       .padding(.top, 64) // Move the text down by 32 points
-
-                   Spacer() // Pushes the next element (the image) to the bottom
-                AsyncImage(url: URL(string: imageURL))
-                       .frame(width: 256, height: 256)
-                       .padding(.bottom, 32) // Move the image up by 32 points
-               }
             
-            /// Back Text
             if showAnswer {
+                
                 Text(backText)
-                    .font(.system(.title3, design: .rounded))
+                    .font(.system(.title, design: .rounded))
                     .fontWeight(.medium)
                     .multilineTextAlignment(.center)
-                    .frame(
-                        maxWidth: .infinity,
-                        maxHeight: .infinity,
-                        alignment: .bottom
-                    )
-                    .padding()
-                    .animation(.interactiveSpring(), value: showAnswer)
-                    .transition(.move(edge: .bottom))
+                    .padding(.top, 64) // Move the text down by 32 points
+                
+            } else {
+                
+                VStack {
+                    Text(frontText)
+                        .font(.system(.title, design: .rounded))
+                        .fontWeight(.medium)
+                        .multilineTextAlignment(.center)
+                        .padding(.top, 64) // Move the text down by 32 points
+                    
+                    AsyncImage(url: URL(string: imageURL)) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView() // Display before download starts
+                        case .success(let image):
+                            image.resizable() // Make the downloaded image resizable
+                        case .failure(_):
+                            Image(systemName: "xmark.circle") // Display on download error
+                        @unknown default:
+                            EmptyView() // Some other phase, perhaps future ones
+                        }
+                    }
+                    .aspectRatio(contentMode: .fill) // Fill the specified space
+                    .frame(width: 150, height: 150) // Specify the size of the frame
+                    .clipped() // Clip overlaping parts outside the frame
+                    
+                    
+                }
             }
             
             /// Thumbs up

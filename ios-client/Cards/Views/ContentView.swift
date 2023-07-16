@@ -198,7 +198,7 @@ struct ContentView: View {
     func preloadCardsIfNeeded() {
         let key = "didPreloadCards"
         let defaults = UserDefaults.standard
-        let url = "http://172.16.9.249:8080/api/db/results"
+        let url = "http://192.168.1.27:8080/api/db/results"
         
         AF.request(url).validate().responseJSON { response in
             print(response)
