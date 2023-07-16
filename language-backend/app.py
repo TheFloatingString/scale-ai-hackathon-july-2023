@@ -3,6 +3,9 @@ import requests
 import os
 import openai
 from dotenv import load_dotenv
+from pymongo import MongoClient
+
+from flask_cors import CORS
 
 from flask_cors import CORS, cross_origin
 
@@ -10,8 +13,11 @@ load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_API_KEY_SAI")
 
+mongo_client = MongoClient("mongodb+srv://user:pass@cluster0.gtjf1ql.mongodb.net/?retryWrites=true&w=majority")
+
 app = Flask(__name__)
 cors = CORS(app)
+<<<<<<< HEAD
 app.config["CORS_HEADERS"] = "Content-Type"
 
 # @app.after_request
@@ -20,11 +26,22 @@ app.config["CORS_HEADERS"] = "Content-Type"
 #     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
 #     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
 #     return response
+=======
+>>>>>>> bef2f6066c16ad440b3c7d00fe9f98f38e302ef0
 
 @app.route("/")
 # @cross_origin
 def root():
     return {"data": "Flash REST API"}
+
+@app.route("/api/db/item", methods=["GET", "POST"])
+def api_db_item():
+
+    post = {"data": "content"}
+
+    post_id = mongo_client.db.coll.insert_one(post).inserted_id
+
+    return {"data": "1"}
 
 @app.route("/api/word_to_sentence", methods=["GET", "POST"])
 # @cross_origin

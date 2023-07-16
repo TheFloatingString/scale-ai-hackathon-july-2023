@@ -7,7 +7,7 @@ const Translator = () => {
   const [word, setWord] = useState("");
   const [translation, setTranslation] = useState("");
   const [img, setImage] = useState("")
-  // const [sent, setSentence] = useState("")
+  const [sent, setSentence] = useState("")
 
   const handleChange = (event) => {
     setWord(event.target.value);
@@ -36,8 +36,18 @@ const Translator = () => {
       const response = await axios.post('http://localhost:8080/api/sentence_to_image', {
         message: word,
       }, config);
-      setImage(response.data);
+      setImage(response.data.data);
+    } catch (error) {
+      console.error("Error getting image: ", error);
+    }
+  }
 
+  const sentence = async () => {
+    try {
+      const response = await axios.post('http://localhost:8080/api/word_to_sentence', {
+        message: translation,
+      }, config);
+      setSentence(response.data.data);
     } catch (error) {
       console.error("Error getting image: ", error);
     }
@@ -67,6 +77,16 @@ const Translator = () => {
         <img src={img} alt="Translated Image" mt="2" />
         </>
       )}
+
+<Button colorScheme="green" onClick={sentence} mt="4">See Sentence</Button>
+      { sent && (
+        <>
+        <Text mt="5">
+        <strong>{sent}</strong>
+        </Text>
+        </>
+      )}
+
     </Box>
   );
 };
